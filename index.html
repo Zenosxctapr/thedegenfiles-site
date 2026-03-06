@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE DEGEN FILES</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --paper:    #f7f3ec;
+  --paper2:   #ede8df;
+  --ink:      #1c1812;
+  --ink2:     #2e2820;
+  --ink3:     #4a4438;
+  --faint:    #8a8070;
+  --rule:     #c8c0b0;
+  --red:      #8b1a1a;
+  --bg:       #2a2620;
+}
+
+html, body {
+  background: var(--bg);
+  font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.page-shell {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 24px 140px;
+}
+
+/* ── DOCUMENT SHEET ── */
+.doc-sheet {
+  background: var(--paper);
+  padding: 52px 64px 64px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.12),
+    2px 4px 20px rgba(0,0,0,0.45),
+    6px 8px 40px rgba(0,0,0,0.3);
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 23px,
+      rgba(0,0,0,0.012) 23px,
+      rgba(0,0,0,0.012) 24px
+    );
+}
+
+.doc-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--bg) 50%, transparent 50%);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.doc-sheet::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(to left, rgba(0,0,0,0.07), transparent);
+  pointer-events: none;
+}
+
+/* ── HEADER ── */
+.doc-header {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.doc-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.agency-block {
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  line-height: 1.7;
+  color: var(--ink2);
+}
+
+.agency-block .agency-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.form-id-block {
+  text-align: right;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--ink3);
+}
+
+.form-id-block .form-num {
+  font-weight: 700;
+}
+
+.doc-title {
+  text-align: center;
+  margin: 18px 0 6px;
+}
+
+.doc-title-main {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.doc-title-sub {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink2);
+  margin-top: 4px;
+}
+
+.classification-line {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  border-top: 1px solid var(--red);
+  border-bottom: 1px solid var(--red);
+  padding: 3px 0;
+  margin-top: 10px;
+}
+
+/* ── ROUTING TABLE ── */
+.meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  border: 1px solid var(--ink2);
+}
+
+.meta-table td {
+  padding: 4px 8px;
+  font-size: 10.5px;
+  border: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.meta-table td.label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink2);
+  font-size: 9.5px;
+  background: var(--paper2);
+  white-space: nowrap;
+}
+
+/* DECLASSIFIED stamp */
+.stamp-wrap {
+  position: absolute;
+  top: 68px;
+  right: 56px;
+  pointer-events: none;
+  transform: rotate(-7deg);
+  opacity: 0.52;
+}
+
+.stamp-box {
+  border: 3px solid var(--red);
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  line-height: 1;
+  display: inline-block;
+}
+
+.stamp-sub {
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  color: var(--red);
+  text-align: center;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+.serial-stamp {
+  position: absolute;
+  bottom: 36px;
+  right: 56px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.28;
+  transform: rotate(-2deg);
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+
+/* ── INTRO TEXT ── */
+.doc-intro {
+  margin: 20px 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--ink2);
+  text-align: justify;
+}
+
+.doc-intro p + p { margin-top: 10px; }
+
+/* ── SECTION HEADING ── */
+.section-heading {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin: 28px 0 12px;
+  color: var(--ink);
+}
+
+/* ── REGISTRY TABLE ── */
+.registry-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.registry-table thead tr {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.registry-table th {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 8px;
+  text-align: left;
+  color: var(--ink2);
+  background: var(--paper2);
+}
+
+.registry-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink);
+}
+
+.registry-table tbody tr {
+  cursor: pointer;
+}
+
+.registry-table tbody tr:hover td {
+  background: rgba(0,0,0,0.035);
+}
+
+.registry-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.col-serial  { width: 85px;  font-size: 10px; color: var(--faint); }
+.col-name    { width: 120px; font-weight: 700; }
+.col-handle  { width: 140px; font-size: 11px; color: var(--ink2); }
+.col-class   { width: 90px; }
+.col-status  { width: 85px; }
+.col-summary { font-size: 11px; color: var(--ink3); }
+
+/* inline redaction */
+.rx {
+  display: inline-block;
+  background: var(--ink);
+  height: 1em;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* ── DOC FOOTER ── */
+.doc-footer {
+  margin-top: 40px;
+  border-top: 1px solid var(--ink);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--ink3);
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20,18,14,0.88);
+  z-index: 600;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-doc {
+  background: var(--paper);
+  width: 100%;
+  max-width: 700px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 52px 62px 60px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.15),
+    4px 6px 30px rgba(0,0,0,0.7),
+    10px 12px 60px rgba(0,0,0,0.5);
+  animation: sheetIn 0.2s ease-out;
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 23px,
+      rgba(0,0,0,0.012) 23px,
+      rgba(0,0,0,0.012) 24px
+    );
+}
+
+@keyframes sheetIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-doc::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(to left, rgba(0,0,0,0.07), transparent);
+  pointer-events: none;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: none;
+  border: none;
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--faint);
+  cursor: pointer;
+  padding: 4px 0;
+}
+.modal-close:hover { color: var(--ink); }
+
+.modal-stamp-wrap {
+  position: absolute;
+  top: 60px;
+  right: 56px;
+  pointer-events: none;
+  transform: rotate(-6deg);
+  opacity: 0.48;
+}
+
+.modal-hdr {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.modal-hdr-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--ink3);
+  margin-bottom: 10px;
+}
+
+.modal-title-main {
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.modal-title-sub {
+  text-align: center;
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 4px;
+}
+
+.modal-class-line {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--red);
+  border-top: 1px solid var(--red);
+  border-bottom: 1px solid var(--red);
+  padding: 3px 0;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+/* subject info block */
+.subject-block {
+  margin: 18px 0;
+  border: 1px solid var(--ink2);
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.subject-block td {
+  padding: 5px 10px;
+  border: 1px solid var(--rule);
+  font-size: 11.5px;
+  vertical-align: middle;
+}
+
+.subject-block td.lbl {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink3);
+  background: var(--paper2);
+  white-space: nowrap;
+  width: 110px;
+}
+
+.modal-body-text {
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: var(--ink2);
+  text-align: justify;
+  margin: 16px 0;
+}
+
+.modal-body-text p + p { margin-top: 12px; }
+
+.para-lead {
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.offense-list {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+}
+
+.offense-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink2);
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.offense-list li:last-child { border-bottom: none; }
+
+.offense-tag {
+  font-weight: 700;
+  color: var(--ink3);
+  min-width: 22px;
+  flex-shrink: 0;
+}
+
+.modal-foot {
+  margin-top: 36px;
+  border-top: 1px solid var(--ink);
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--ink3);
+}
+
+/* ── TICKER ── */
+.ticker {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--ink);
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 300;
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-label {
+  background: var(--red);
+  color: #f0e8d8;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.ticker-scroll { overflow: hidden; flex: 1; }
+
+.ticker-inner {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  color: #b0a898;
+  animation: tickerRun 65s linear infinite;
+  padding-left: 40px;
+}
+
+@keyframes tickerRun {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(-100%); }
+}
+
+@media (max-width: 640px) {
+  .doc-sheet, .modal-doc { padding: 32px 20px 40px; }
+  .doc-header-top { flex-direction: column; gap: 10px; }
+  .col-summary, .col-status { display: none; }
+  .stamp-wrap, .modal-stamp-wrap { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-shell">
+<div class="doc-sheet">
+
+  <div class="stamp-wrap">
+    <div class="stamp-box">Declassified</div>
+    <div class="stamp-sub">E.O. 13526 &nbsp;·&nbsp; NW 69420 &nbsp;·&nbsp; Date: ██/██/24</div>
+  </div>
+
+  <div class="serial-stamp">177-6942-1</div>
+
+  <div class="doc-header">
+    <div class="doc-header-top">
+      <div class="agency-block">
+        <div class="agency-name">Crypto Intelligence Bureau</div>
+        <div>Financial Crimes &amp; Digital Asset Division</div>
+        <div>Washington, D.C. 20535</div>
+        <div style="margin-top:8px;">Prepared by: <span class="rx" style="width:90px;">&nbsp;</span></div>
+        <div>Approved by: <span class="rx" style="width:90px;">&nbsp;</span></div>
+      </div>
+      <div class="form-id-block">
+        <div class="form-num">Form CIB-177 (Rev. 11-2024)</div>
+        <div style="margin-top:4px;">File No.:&nbsp; 177-CT-6942</div>
+        <div>Date:&nbsp; November <span class="rx" style="width:20px;">&nbsp;</span>, 2024</div>
+        <div style="margin-top:8px;">Pages:&nbsp; <span class="rx" style="width:16px;">&nbsp;</span> of <span class="rx" style="width:16px;">&nbsp;</span></div>
+        <div>Enclosures: <span class="rx" style="width:28px;">&nbsp;</span></div>
+      </div>
+    </div>
+    <div class="doc-title">
+      <div class="doc-title-main">The Degen Files</div>
+      <div class="doc-title-sub">Subject Registry &amp; Intelligence Summary — Crypto Twitter Division</div>
+    </div>
+    <div class="classification-line">
+      formerly top secret &nbsp;//&nbsp; declassified in full &nbsp;//&nbsp; foia request no. 69420-ct
+    </div>
+  </div>
+
+  <table class="meta-table">
+    <tbody>
+      <tr>
+        <td class="label">To</td>
+        <td>Director, Financial Crimes Division</td>
+        <td class="label">Via</td>
+        <td>FOIA Release Program</td>
+      </tr>
+      <tr>
+        <td class="label">From</td>
+        <td><span class="rx" style="width:150px;">&nbsp;</span></td>
+        <td class="label">Case No.</td>
+        <td>177-CT-6942-00001</td>
+      </tr>
+      <tr>
+        <td class="label">Subject</td>
+        <td colspan="3">CRYPTO TWITTER — PERSONS OF INTEREST — DIGITAL ASSET MARKETS — UNSOLICITED FINANCIAL INFLUENCE OPERATIONS</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="doc-intro">
+    <p>This document constitutes the declassified subject registry compiled by the Financial Crimes &amp; Digital Asset Division pursuant to an investigation into coordinated influence operations on the social media platform formerly known as Twitter, hereafter referred to as Crypto Twitter (CT). All subjects listed herein were identified as persons of interest in connection with suspected retail investor harm, undisclosed promotional activity, and/or wallet coordination. One subject (see Serial 4) was determined to be a cooperating source and cleared of all charges.</p>
+    <p>The following registry reflects the status of subjects as of the date of this document. Individual dossiers are maintained under separate cover. Select any subject row to access the full intelligence summary. Redacted portions are withheld pursuant to Exemptions (b)(1), (b)(3), and (b)(7)(C) of the Freedom of Information Act, 5 U.S.C. § 552.</p>
+  </div>
+
+  <div class="section-heading">I. Subject Registry</div>
+
+  <table class="registry-table">
+    <thead>
+      <tr>
+        <th class="col-serial">Serial No.</th>
+        <th class="col-name">Alias</th>
+        <th class="col-handle">Handle</th>
+        <th class="col-class">Risk Class.</th>
+        <th class="col-status">Status</th>
+        <th class="col-summary">Summary of Concern</th>
+      </tr>
+    </thead>
+    <tbody id="registryBody"></tbody>
+  </table>
+
+  <div class="doc-footer">
+    <span>CIB Form 177 &nbsp;·&nbsp; Financial Crimes &amp; Digital Asset Division</span>
+    <span>UNCLASSIFIED UPON REMOVAL OF ATTACHMENTS</span>
+    <span>Serial 177-CT-6942-1</span>
+  </div>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+<div class="modal-doc" id="modalDoc">
+
+  <button class="modal-close" onclick="closeModal()">[ close file ]</button>
+
+  <div class="modal-stamp-wrap">
+    <div class="stamp-box">Declassified</div>
+    <div class="stamp-sub">E.O. 13526 &nbsp;·&nbsp; NW 69420</div>
+  </div>
+
+  <div class="modal-hdr">
+    <div class="modal-hdr-top">
+      <span>Crypto Intelligence Bureau — Financial Crimes Division</span>
+      <span id="mFormId">Form CIB-177-S / Serial —</span>
+    </div>
+    <div class="modal-title-main">Individual Intelligence Summary</div>
+    <div class="modal-title-sub">Subject Dossier — Crypto Twitter Division</div>
+    <div class="modal-class-line">
+      formerly top secret &nbsp;//&nbsp; declassified in full &nbsp;//&nbsp; foia no. 69420-ct
+    </div>
+  </div>
+
+  <table class="subject-block">
+    <tbody>
+      <tr>
+        <td class="lbl">Known Alias</td>
+        <td style="font-weight:700;font-size:15px;" id="mName"></td>
+        <td class="lbl">Handle</td>
+        <td id="mHandle"></td>
+      </tr>
+      <tr>
+        <td class="lbl">File Number</td>
+        <td id="mFileNum"></td>
+        <td class="lbl">Risk Class.</td>
+        <td id="mRisk"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Status</td>
+        <td id="mStatus"></td>
+        <td class="lbl">Platform</td>
+        <td>Crypto Twitter (CT)</td>
+      </tr>
+      <tr>
+        <td class="lbl">Opened</td>
+        <td><span class="rx" style="width:80px;">&nbsp;</span></td>
+        <td class="lbl">Investigator</td>
+        <td><span class="rx" style="width:120px;">&nbsp;</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading" style="margin-top:22px;">Intelligence Summary</div>
+  <div class="modal-body-text" id="mRoast"></div>
+
+  <div class="section-heading">Documented Conduct</div>
+  <ol class="offense-list" id="mCrimes"></ol>
+
+  <div class="modal-foot">
+    <span>CIB Form 177-S &nbsp;·&nbsp; Individual Dossier</span>
+    <span id="mFootSerial">—</span>
+    <span>Do Not Reproduce Without Authorization</span>
+  </div>
+
+</div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-label">Intel Feed</div>
+  <div class="ticker-scroll">
+    <span class="ticker-inner" id="tickerInner"></span>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+const KOLS = [
+  {
+    alias:'Cobie', handle:'@cobie', risk:'MODERATE', status:'Monitored',
+    summary:'Recurring influence operations via ironic commentary; three documented exit announcements, all reversed.',
+    roast:[
+      'Subject has formally announced retirement from the Crypto Twitter platform on three separate occasions, each followed by return to active posting within weeks. This pattern of publicized withdrawal followed by resumption is documented but the sincerity of the initial announcements has not been established.',
+      'Subject maintains a stated posture of indifference toward the digital asset market while producing a volume of commentary that, by this Division\'s count, exceeds 40 posts on a typical calendar day. The sincerity of the stated indifference is assessed as low to moderate.',
+      'Subject co-hosts a podcast, UpOnly, in which interview subjects are subjected to scrutiny that is, in the assessment of this Division, more rigorous than that applied to the host\'s own investment positions. Followers are consistently emotionally prepared for gains and, on the available evidence, financially unprepared for losses.'
+    ],
+    crimes:[
+      'Ironic commentary that is indistinguishable from actionable market intelligence, creating downstream confusion and potential liability.',
+      'Three public retirement announcements determined upon review to be non-binding and functionally misleading.',
+      'Operating a podcast titled UpOnly during a period in which the relevant markets declined significantly, constituting a material mismatch between program branding and market conditions.'
+    ]
+  },
+  {
+    alias:'Ansem', handle:'@blknoiz06', risk:'HIGH', status:'Active',
+    summary:'Documented calls on DOGE, SHIB, BONK prior to appreciation; also documented calls on 40+ assets that did not appreciate.',
+    roast:[
+      'Subject correctly identified DOGE, SHIB, and BONK as assets with significant upside potential prior to their respective price appreciation events. This Division notes that subject also identified a further 40 or more assets with comparable confidence during the same period, the majority of which did not perform as indicated. The overall accuracy rate has been reviewed and does not support the public confidence with which individual calls are presented.',
+      'Subject\'s analytical methodology has been reviewed by this Division\'s quantitative unit. No replicable framework was identified. The working hypothesis is that subject operates on the basis of what analysts have internally designated as "vibes," supplemented by a self-described understanding of internet canine culture as it relates to retail speculative behavior.',
+      'Subject maintains a continuous online presence across all market conditions. Attempts by this Division to identify periods of material inactivity have been unsuccessful. The Division has not ruled out assisted or automated posting, though no formal determination has been made.'
+    ],
+    crimes:[
+      'Presenting canine-themed market commentary as a legitimate investment methodology on a platform with a substantial retail audience.',
+      'Reporting 3 correct high-confidence calls and 40+ incorrect high-confidence calls within the same analytical period while maintaining consistent presentation across all.',
+      'Achieving peak audience engagement and maximum influence during bull market conditions, then reducing output during bear market conditions, leaving the follower cohort without guidance at the precise moment guidance carries the highest cost-benefit value.'
+    ]
+  },
+  {
+    alias:'Murad', handle:'@MustStopMurad', risk:'MODERATE', status:'Active',
+    summary:'Conference presenter; constructed theoretical framework reclassifying memecoin speculation as community infrastructure.',
+    roast:[
+      'Subject delivered a presentation at a registered financial and technology conference in which the speculative purchase of tokens bearing the likeness of internet memes was characterized as, and this Division quotes directly, "the purest form of community building." The presentation was received positively by the audience. This Division\'s assessment differs from the audience\'s.',
+      'Subject has produced written and spoken material constructing an academic-adjacent framework around assets whose market capitalization is derived entirely from collective agreement that the underlying subject matter is culturally resonant. This framework has been reviewed. It is internally consistent. This Division notes that internal consistency is not equivalent to validity.',
+      'The practical effect of subject\'s activity has been to provide retail participants with a post-hoc theoretical justification for purchases they were inclined to make regardless. This Division has classified this as either a public service or a sophisticated aggravating factor, depending on the performance of the underlying assets.'
+    ],
+    crimes:[
+      'Reclassifying speculative asset purchases as cultural and community acts at a conference that issued continuing education credits to attendees.',
+      'Constructing a coherent and internally consistent philosophical framework around zero-utility assets and presenting it without apparent irony to a professional audience.',
+      'Providing intellectual cover for retail participants who did not request cover but accepted it, thereby reducing the psychological friction associated with high-risk purchases.'
+    ]
+  },
+  {
+    alias:'ZachXBT', handle:'@zachxbt', risk:'MINIMAL', status:'Cleared — Cooperating Source',
+    summary:'On-chain forensic analyst. Cooperating source. Cleared of all charges. See file notation.',
+    roast:[
+      'Subject is the only individual in this registry present as a cooperating source rather than a subject of investigation. This Division notes, for the record, that subject\'s inclusion reflects an administrative requirement of the registry format. No adverse finding applies to this subject. The Division wishes to be explicit on this point given the nature of the other entries.',
+      'Subject has identified and publicly documented more fraudulent operations than this Division\'s own investigators, using only publicly available blockchain data, open-source investigative tools, and a documented reluctance to abandon unresolved cases. All findings reviewed by this Division have been accurate.',
+      'Subject\'s public reporting causes fraudulent actors to take immediate evasive action, including account deletion and asset liquidation. This effect has been documented on multiple occasions. Subject is assessed as a net positive for market integrity and a material risk event for other subjects in this registry.'
+    ],
+    crimes:[
+      'Conducting public investigative journalism of a quality that reflects, by comparison, unfavorably on this Division\'s own output and publication timeline.',
+      'Producing written investigative reports that are accessed by a substantially larger readership than official regulatory releases on the same subject matter.',
+      'Being consistently correct in an analytical environment that does not structurally reward correctness, and doing so without institutional support or compensation from any regulated body.'
+    ]
+  },
+  {
+    alias:'Bitboy', handle:'@Bitboy_Crypto', risk:'CRITICAL', status:'Active — Under Review',
+    summary:'Documented undisclosed promotional activity; subject of class action proceedings; removed from own enterprise. Continues to post.',
+    roast:[
+      'Subject publicly promoted a number of digital assets in exchange for compensation that was not, at the time of promotion, disclosed to the audience receiving the promotion. The assets in question subsequently declined in value. This Division notes that the two facts are related and that the temporal sequence is relevant to the legal proceedings that followed.',
+      'Subject was named in civil class action proceedings by individuals who allege purchases were made on the basis of subject\'s recommendations. Subject was subsequently removed from the company he founded, by associates. Subject continues to post. This Division has reviewed this sequence of events in its entirety and has no additional comment beyond what appears in the file.',
+      'Subject has demonstrated a resistance to professional and reputational consequence that this Division classifies as statistically anomalous. Each documented adverse event — litigation, corporate removal, public cancellation — has been followed by resumed activity within a period shorter than this Division\'s own administrative review cycle. Subject is classified CRITICAL for this reason.'
+    ],
+    crimes:[
+      'Undisclosed paid promotional activity at scale, constituting a material misrepresentation to the retail audience consuming the promoted content.',
+      'Generating civil litigation of sufficient scope to necessitate a standalone sub-file within this Division\'s case management system.',
+      'Resuming active public posting following each adverse professional and legal event within a timeframe this Division has formally classified as anomalous and entered into the record as such.'
+    ]
+  },
+  {
+    alias:'Orangie', handle:'@orangie', risk:'MODERATE', status:'Active',
+    summary:'Operator of 100,000-member online community; identified as primary conduit in gaming-to-trading demographic pipeline.',
+    roast:[
+      'Subject operates an online community designated Potion Alpha, with a reported membership of 100,000 individuals. The community was constructed in significant part through instructional video content on the YouTube platform, targeting individuals in the initial phase of crypto market participation — specifically, individuals who had recently acquired a digital wallet for the first time and had no prior exposure to speculative trading markets.',
+      'Subject has been identified as the primary conduit in what this Division has designated the Fortnite-to-degen pipeline: the systematic migration of individuals from online gaming environments — where speculative risk is simulated and without financial consequence — to live digital asset markets, where it is neither simulated nor without consequence.',
+      'Subject transmits publicly from the Dubai, United Arab Emirates, metropolitan area at approximately 04:00 local time on a recurring basis. The content of these transmissions concerns speculative digital assets. No explanation for the transmission timing has been provided by subject in any reviewed communication. The Division has documented the pattern without drawing a conclusion.'
+    ],
+    crimes:[
+      'Operating a 100,000-member investment community in which documented positive financial returns are concentrated at the administrative level of the organization.',
+      'Functioning as the primary demographic transition mechanism between online gaming populations and live speculative digital asset markets.',
+      'Recurring 04:00 transmissions from Dubai on the subject of speculative asset purchases, constituting a documented public health concern across at least three time zones.'
+    ]
+  },
+  {
+    alias:'Ottabag', handle:'@ottabag', risk:'MODERATE', status:'Monitored',
+    summary:'Subject has systematically recharacterized involuntary asset retention as deliberate accumulation strategy. Follower cohort has adopted this framework.',
+    roast:[
+      'Subject has constructed a public identity predicated on the continued holding of digital assets following significant price depreciation. This holding pattern, which in standard financial terminology constitutes an unrealized loss, is characterized by subject as a long-term accumulation strategy. This Division does not assess these characterizations as equivalent and has documented the distinction in the file.',
+      'Analysis of subject\'s documented entry points indicates a statistically significant concentration at or near local cyclical price highs. Subject entered positions at prices that subsequently declined in 7 of the last 10 documented instances. Subject characterizes this pattern as conviction. This Division\'s quantitative unit characterizes it differently.',
+      'Subject\'s follower cohort has adopted the practice of framing capital losses as motivational content. Posts documenting significant portfolio declines are received positively and generate engagement. This Division\'s behavioral unit has reviewed this dynamic. The assessment has been entered into the file under separate cover.'
+    ],
+    crimes:[
+      'Reclassifying involuntary asset retention as a deliberate and sophisticated accumulation strategy on a public platform with a substantial follower count.',
+      'Demonstrating a documented and repeating tendency to establish positions at or near cyclical market highs across multiple asset classes and time periods.',
+      'Generating a follower ecosystem in which financial loss is systematically reframed as motivational content, reducing the friction that would otherwise cause participants to revise their behavior.'
+    ]
+  },
+  {
+    alias:'Cooker', handle:'@CookerFlips', risk:'HIGH', status:'Active',
+    summary:'Operates one of the most-monitored Solana wallets. Exit timing analysis indicates systematic first-mover advantage over follower cohort across documented instances.',
+    roast:[
+      'Subject\'s on-chain wallet is among the most closely monitored addresses in the Solana blockchain ecosystem. A substantial number of market participants track subject\'s wallet movements in real time and execute corresponding trades on that basis. This Division has reviewed the timing data across documented instances and notes the following finding: in the majority of cases, by the time the downstream cohort has entered a position, subject has already initiated or completed an exit from that position.',
+      'Subject employs the phrase "something is cooking" in public communications prior to significant portfolio activity. This Division now treats this phrase as a risk indicator when it appears. The retail audience monitoring subject\'s communications treats it as an opportunity indicator. The divergence in these two assessments is the primary finding of this sub-investigation.',
+      'Subject\'s wallet transparency — the quality that makes it the target of copy-trading activity — functions, in effect, as the operational mechanism enabling subject\'s exit strategy. The downstream cohort provides the buy-side volume that subject exits into. The Division has documented this structural dynamic and notes that it operates to subject\'s benefit and to the cohort\'s detriment.'
+    ],
+    crimes:[
+      'Executing digital asset exits with a timing advantage that renders copy-trading by the downstream observer cohort structurally non-viable across documented instances.',
+      'Issuing the phrase "something is cooking" in public communications in a manner that simultaneously functions as a personal exit signal and a retail entry signal.',
+      'Operating a publicly transparent on-chain wallet whose transparency is the mechanism by which the underlying trading strategy is executed, rather than evidence of good-faith information sharing.'
+    ]
+  },
+  {
+    alias:'Cupsey', handle:'@Cupseyy', risk:'HIGH', status:'Active — Anomalous Activity Flag',
+    summary:'Subject documented executing 910 discrete trades in a single calendar day. Average holding duration 30–90 seconds. Documented returns $5M+. Follower cohort returns not comparable.',
+    roast:[
+      'Subject has been documented executing 910 discrete trading positions within a single 24-hour calendar period. This equates to one trading action every 95 seconds, inclusive of standard sleep hours. This Division\'s operations unit reviewed this figure on multiple occasions. It remains 910. The figure has been entered into the file as documented.',
+      'Subject\'s average position holding duration has been calculated at between 30 seconds and approximately 90 seconds. Subject\'s documented returns over the period under review exceed $5,000,000 USD. Subject\'s follower cohort, which attempts to replicate subject\'s trading activity in real time, does not report comparable returns. The interval between subject\'s position entry and the follower cohort\'s corresponding entry is the primary explanatory variable in this outcome differential.',
+      'This Division has reviewed subject\'s trading output and formally notes that executing 910 trades per day at 30-to-90-second average durations presents physiological challenges for a single individual that have not been addressed in subject\'s public communications. This observation has been entered into the file. No further action has been initiated on this basis at this time.'
+    ],
+    crimes:[
+      'Executing 910 digital asset trades within a 24-hour period, generating a public impression of a replicable strategy that is, in the operational assessment of this Division, not replicable by downstream observers under real market conditions.',
+      'Generating $5,000,000+ in documented personal returns under conditions in which the follower cohort attempting to replicate the strategy consistently enters positions after the optimal entry window has closed.',
+      'Sustaining a trading velocity that this Division\'s physiological consultants have classified as requiring further assessment and have referred to the appropriate unit for review.'
+    ]
+  },
+  {
+    alias:'Threadguy', handle:'@threadguy', risk:'MODERATE', status:'Monitored',
+    summary:'Subject produced substantive long-form content establishing genuine credibility. Subsequently affiliated with collective associated with repeated token launch-and-exit pattern.',
+    roast:[
+      'Subject is notable within this registry for the basis on which public influence was established: substantive long-form written analysis and recurring hosted audio programming. This Division\'s review of the content confirms it was substantive and of higher quality than the median output in the relevant ecosystem. This makes subject\'s subsequent affiliations more, not less, significant from an investigative standpoint.',
+      'Subject is affiliated with a collective operating under the designation Hookah Gang, also known publicly as probablynothing. This collective has issued digital tokens on multiple occasions. The lifecycle of these tokens follows a pattern this Division has now documented with sufficient frequency to classify as a template: elevated initial market capitalization, broad community accumulation phase, administrative exit prior to peak price discovery, community retention of subsequently depreciated assets.',
+      'Subject made a public statement acknowledging that key opinion leaders in the digital asset space monetize their influence. This Division notes that this statement functions simultaneously as an admission, a warning, and a disclosure, and that subject has not clarified which of these three functions was intended. All three interpretations have been recorded in the file.'
+    ],
+    crimes:[
+      'Establishing genuine public credibility through substantive content production, then affiliating with a collective whose token issuance history follows a documented and repeating community-exit pattern.',
+      'Participating in token issuances whose structure this Division has now classified as a template and documented across multiple instances.',
+      'Issuing a public statement acknowledging that KOL influence is monetized without specifying whether the statement constituted an admission, a warning, or a disclosure — leaving the interpretive burden on the audience.'
+    ]
+  },
+  {
+    alias:'Profit', handle:'@FlippingProfits', risk:'HIGH', status:'Active',
+    summary:'Subject alias creates materially misleading outcome expectations. Operates a closely tracked Solana wallet. Entry-exit timing analysis unfavorable to downstream follower cohort.',
+    roast:[
+      'Subject operates under the alias FlippingProfits. This Division notes that the alias constitutes a forward-looking projection that, on the basis of the available evidence, applies to subject\'s own activity and not to the downstream cohort that monitors and attempts to replicate it. The Division has recorded this observation and notes that it does not constitute a formal finding of misrepresentation, but that it is adjacent to one.',
+      'Subject\'s wallet is among the most closely tracked on-chain addresses in the Solana ecosystem. The follower cohort monitors each transaction and executes corresponding trades. Timing analysis of documented instances indicates that the follower cohort consistently enters positions at a point after subject\'s exit from those positions has commenced. The structural information asymmetry that enables this dynamic appears to be an inherent feature of the monitoring relationship rather than a deliberate design choice. The Division has not reached a final determination on this point.',
+      'Subject\'s documented on-chain activity, when reviewed in sequence, reads as a coherent and internally logical narrative. The follower cohort interpreting and acting on this narrative does so at a systematic disadvantage. No formal complaint has been received by this Division from members of the follower cohort. The Division notes this absence without drawing a conclusion from it.'
+    ],
+    crimes:[
+      'Operating under an alias that creates materially misleading outcome expectations for the follower cohort that monitors and attempts to replicate subject\'s trading activity.',
+      'Maintaining a publicly transparent on-chain wallet whose transaction data is systematically accessed by downstream observers at a point after the favorable entry or exit window has closed.',
+      'Generating a documented and publicly visible on-chain activity record that functions as a compelling narrative for followers while the financial outcomes of that narrative remain concentrated with subject.'
+    ]
+  },
+  {
+    alias:'Flipski', handle:'@flipski77', risk:'MODERATE', status:'Monitored',
+    summary:'Active in Solana memecoin markets. Numeric suffix in alias unexplained. Asymmetric post-loss philosophical framing pattern documented.',
+    roast:[
+      'Subject operates in the Solana memecoin market under the alias Flipski77. The numeric suffix "77" has not been explained by subject in any reviewed public communication. This Division\'s analytical unit has documented two principal hypotheses: that the number is a jersey number of personal significance to subject, or that it represents a count of follower positions left in a depreciated state following subject\'s exit from the relevant assets. The available data does not conclusively support either hypothesis. The question remains open in the file.',
+      'Subject has demonstrated a documented pattern of sustained market participation following adverse events that, in this Division\'s assessment, would cause the majority of retail participants to materially reduce or cease activity. These events include rug pulls, coordinated price suppression, and asset delisting. Subject resumes activity in the subsequent trading session. This Division assesses this behavior pattern as indicating either a high tolerance for financial adversity or an impaired capacity to update strategy in response to negative outcomes. Possibly both.',
+      'Subject\'s public communications following positions that resulted in losses are consistently accompanied by philosophical framing, including but not limited to references to the educational value of financial loss and the characterization of losses as components of a longer journey. Subject\'s communications following profitable positions do not contain philosophical framing of equivalent or comparable weight. This asymmetric pattern has been documented across multiple instances and entered into the file.'
+    ],
+    crimes:[
+      'Operating under an alias with an unexplained numeric suffix that has generated a volume of speculative interpretation within the follower cohort disproportionate to the information actually provided.',
+      'Participating in Solana memecoin markets with a risk tolerance and persistence that this Division\'s behavioral unit has referred to the appropriate consultants for further assessment.',
+      'Systematic application of philosophical framing exclusively to loss disclosures while maintaining a non-philosophical register for gain disclosures — an asymmetric communicative pattern documented across multiple time periods.'
+    ]
+  }
+];
+
+function renderTable() {
+  const tbody = document.getElementById('registryBody');
+  KOLS.forEach((k, i) => {
+    const tr = document.createElement('tr');
+    tr.onclick = () => openModal(i);
+    tr.title = 'Select to open full dossier';
+    const sn = `177-CT-6942-${String(i+1).padStart(3,'0')}`;
+    tr.innerHTML = `
+      <td class="col-serial">${sn}</td>
+      <td class="col-name">${k.alias}</td>
+      <td class="col-handle">${k.handle}</td>
+      <td class="col-class">${k.risk}</td>
+      <td class="col-status">${k.status.split(' —')[0]}</td>
+      <td class="col-summary">${k.summary}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+let accessCounter = 1;
+
+function openModal(i) {
+  const k = KOLS[i];
+  const sn = `177-CT-6942-${String(i+1).padStart(3,'0')}`;
+  const accessId = `CIB-177-S / Serial ${sn}-${String(accessCounter++).padStart(2,'0')}`;
+
+  document.getElementById('mFormId').textContent  = `Form ${accessId}`;
+  document.getElementById('mName').textContent    = k.alias;
+  document.getElementById('mHandle').textContent  = k.handle;
+  document.getElementById('mFileNum').textContent = sn;
+  document.getElementById('mRisk').textContent    = k.risk;
+  document.getElementById('mStatus').textContent  = k.status;
+  document.getElementById('mFootSerial').textContent = sn;
+
+  const roastEl = document.getElementById('mRoast');
+  roastEl.innerHTML = '';
+  k.roast.forEach((para, idx) => {
+    const p = document.createElement('p');
+    p.innerHTML = `<span class="para-lead">${idx + 1}.</span>${para}`;
+    roastEl.appendChild(p);
+  });
+
+  const crimeEl = document.getElementById('mCrimes');
+  crimeEl.innerHTML = '';
+  k.crimes.forEach((c, idx) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="offense-tag">(${String.fromCharCode(97 + idx)})</span>${c}`;
+    crimeEl.appendChild(li);
+  });
+
+  document.getElementById('modalDoc').scrollTop = 0;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function overlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+const TICKER_ITEMS = [
+  'SUBJECT [REDACTED] flagged for on-chain wallet movement 4 minutes prior to public market commentary — file updated.',
+  'Analyst note: 47th consecutive public declaration of "we are still early" entered into record; Division response pending review.',
+  'All 12 registered subjects photographed within the Dubai metropolitan area during Q4 2024 — coincidence assessment ongoing.',
+  'Copy-trader cohort reports inability to replicate documented returns of any monitored wallet — behavioral unit review scheduled.',
+  'Subject [REDACTED] characterizes 80% asset drawdown as a "healthy correction" — Division assessment entered under separate notation.',
+  'CLEARED: Serial 177-CT-6942-004 confirmed cooperating source; no adverse findings; file closed.',
+  'Wallet [REDACTED] transferred $2.4M to untracked address 11 seconds prior to public "extremely bullish" post — documented.',
+  'Listener complaint received re: program title UpOnly — closed; no actionable finding; branding not within Division jurisdiction.',
+  'Subject [REDACTED] announced retirement from platform for third time this quarter — monitoring continues per standing protocol.'
+];
+
+document.getElementById('tickerInner').textContent = TICKER_ITEMS.join('     //     ');
+
+renderTable();
+</script>
+</body>
+</html>
